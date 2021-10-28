@@ -77,7 +77,7 @@ ORDER BY emp.first_name, ger.first_name;
 SELECT 
 	emp.employee_id id,
 	emp.first_name first_name,
-    emp.salary,
+   	emp.salary,
 	grd.grade_level categoria
 FROM employees emp
 INNER JOIN job_grades grd
