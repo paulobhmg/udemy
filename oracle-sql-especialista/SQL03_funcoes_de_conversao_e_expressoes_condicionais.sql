@@ -34,14 +34,12 @@
 SELECT 
   first_name, last_name,
   TO_CHAR(sysdate, 'DD/MM/YYYY "às" HH24:MI:SS') hire_date
-FROM 
-  employees;
+FROM employees;
 
 SELECT 
   first_name, last_name,
   TO_CHAR(sysdate, '"Belo Horizonte", FMDD "de" FMMonth "de" YYYY "-" HH24:MI:SS') data_atual
-FROM 
-  employees;
+FROM employees;
 
 
 /* TO_CHAR também converte um número para formato caracteres
@@ -59,77 +57,65 @@ D - Símbolo de decimal de acordo com o parâmetro do banco de dados
 SELECT
   first_name, last_name,
   TO_CHAR(salary, 'L99G999G999D99') salary
-FROM 
-  employees;
+FROM employees;
 
 -- Quando utiliza esse padrão e um número for maior do que o valor da máscara, a máscara retorna valor inesperado
 SELECT 
   first_name, last_name,
   TO_CHAR(salary, 'L99D99') salary
-FROM 
-  employees; 
+FROM employees; 
 
 -- TO_NUMBER converte uma expressão em caracter para número, desde que esteja em um formato válido
 
 SELECT 
   TO_NUMBER('1200,50') 
-FROM 
-  dual;
+FROM dual;
 
 -- TO_DATE converte uma string de caracteres para data, passando no segundo argumento qual é o formato da data
 
 SELECT 
   TO_DATE('03/11/2021', 'DD/MM/YYYY') today
-from 
-  dual;
+from dual;
 
 SELECT 
   TO_CHAR(
     TO_DATE('03/11/21 08:00:00', 'DD/MM/YYYY HH24:MI:SS'), 
     'DD/MM/YYYY HH24:MI:SS'
 ) today
-FROM 
-  dual;
+FROM dual;
 
 -- Também é possível utilizar as conversões como comparações
 SELECT 
   first_name, last_name, hire_date
-FROM 
-  employees
-WHERE 
-  hire_date BETWEEN TO_DATE('01/03/2002', 'DD/MM/YYYY') AND TO_DATE('01/03/2004', 'DD/MM/YYYY')
+FROM employees
+WHERE hire_date BETWEEN TO_DATE('01/03/2002', 'DD/MM/YYYY') AND TO_DATE('01/03/2004', 'DD/MM/YYYY')
 ORDER BY hire_date;
 
 SELECT 
   first_name, last_name, hire_date,
   ROUND(MONTHS_BETWEEN(sysdate, hire_date), 0) qtde_de_meses
-FROM 
-  employees
-WHERE 
-  ROUND(MONTHS_BETWEEN(sysdate, hire_date), 0) > 20;
+FROM employees
+WHERE ROUND(MONTHS_BETWEEN(sysdate, hire_date), 0) > 20;
 
 -- NVL substitui um valor nulo por outro, passado em seu segundo parâmetro
 
 SELECT 
   first_name, last_name, salary,
   ROUND(NVL(commission_pct, 0), 2) commission 
-FROM 
-  employees;
+FROM employees;
 
 -- Calculos com valores nulos retornam null, portanto o NVL deve ser utilizado tambem para os cálculos
 SELECT 
   first_name, last_name, salary,
   ROUND(NVL(commission_pct, 0), 2) comission,
   (salary * 12) * commission_pct commission_pct_full
-FROM 
-  employees;
+FROM employees;
 
 SELECT 
   first_name, last_name, salary,
   ROUND(NVL(commission_pct, 0), 2) commission,
   TO_CHAR((salary * 12) * NVL(commission_pct, 0), 'L99G999G999D99') total
-FROM 
-  employees;
+FROM employees;
 
 -- COALESCE receberá uma lista de argumentos e vai retornar o primeiro argumento encontrado diferente de nulo
 
@@ -137,16 +123,14 @@ SELECT
   COALESCE(NULL, NULL, 'EXPRESSÃO 1') expressao1,
   COALESCE(NULL, 'EXPRESSÃO 2', NULL) expressao2,
   COALESCE('EXPRESSAO 3', NULL, NULL) expressao3
-FROM 
-  dual;
+FROM dual;
 
 SELECT
   first_name, last_name,
   NVL(commission_pct, 0) commission,
   NVL(TO_CHAR(manager_id), 'vazio') manager,
   COALESCE(TO_CHAR(commission_pct), TO_CHAR(manager_id), 'Não possui cargo ou comissão') mensagem
-FROM 
-  employees;
+FROM employees;
 
 -- ***** Testar a funcionalidade desses dois últimos códigos depois.
 SELECT
@@ -154,8 +138,7 @@ SELECT
   NVL(commission_pct, 0) commission,
   NVL(TO_CHAR(manager_id), 'vazio') manager,
   COALESCE(TO_CHAR(ROUND(NVL(commission_pct,0),2)), TO_CHAR(manager_id), 'Não possui cargo ou comissão') mensagem
-FROM 
-  employees;
+FROM employees;
 
 -- NVL2 é uma variação de NVL e recebe 3 argumentos
 -- Se o 1° argumento é nulo, utiliza o 3°. Se o 1° argumento for <> nulo, utiliza o 2°
@@ -165,20 +148,15 @@ SELECT
   first_name, last_name, salary,
   NVL(commission_pct, 0) commission,
   NVL2(commission_pct, commission_pct + 0.03, 0) * salary comission_pay
-FROM 
-  employees;
+FROM employees;
 
 -- NULLIF recebe 2 argumentos. Se eles forem iguais, retorna null, senão retorna o primeiro.
 
-SELECT 
-  NULLIF(1000,1000)
-FROM 
-  dual;
+SELECT NULLIF(1000,1000)
+FROM dual;
 
-SELECT 
-  NULLIF(1000, 2000)
-FROM 
-  dual;
+SELECT NULLIF(1000, 2000)
+FROM dual;
 
 -----------------------------------------------------
 
@@ -197,18 +175,16 @@ SELECT
     WHEN 8000 THEN salary + salary * 0.08
     ELSE salary
   END commission_paid
-FROM 
-  employees
+FROM employees
 ORDER BY salary;
 
 -- DECODE
-SELECT
-  first_name, last_name, salary,
-DECODE(
-  job_id, 
-    'IT_PROG', salary + 1.10 * salary,
-    'ST_CLEARK', salary + 1.15 * salary,
-    'SA_REP', salary + 1.20 * salary
-            , salary
-) novo_salario
+SELECT first_name, last_name, salary,
+  DECODE(
+    job_id, 
+      'IT_PROG', salary + 1.10 * salary,
+      'ST_CLEARK', salary + 1.15 * salary,
+      'SA_REP', salary + 1.20 * salary
+              , salary
+  ) novo_salario
 FROM employees;

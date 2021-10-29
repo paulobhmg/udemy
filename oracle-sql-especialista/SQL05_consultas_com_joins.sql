@@ -19,8 +19,7 @@ SELECT
   emp.last_name,
   emp.department_id,
   dep.department_name
-FROM 
-  employees emp
+FROM employees emp
 INNER JOIN departments dep ON dep.department_id = emp.department_id
 ORDER BY emp.first_name, dep.department_name;
 
@@ -31,16 +30,14 @@ SELECT
   dep.department_name,
   loc.street_address,
   cnt.country_name
-FROM 
-  employees emp
+FROM employees emp
 INNER JOIN departments dep 
   ON emp.department_id = dep.department_id
 INNER JOIN locations loc 
   ON dep.location_id = loc.location_id
 INNER JOIN countries cnt 
   ON loc.country_id = cnt.country_id
-WHERE 
-  emp.salary BETWEEN 7000 AND 10000 -- Condiçõies adicionais são adicionadas com a cláusula WHERE
+WHERE emp.salary BETWEEN 7000 AND 10000 -- Condiçõies adicionais são adicionadas com a cláusula WHERE
 ORDER BY cnt.country_name, emp.first_name, dep.department_name;
 
 -- NATURAL JOIN faz a unificação entre tabelas de forma implícita, utilizando como chave os campos de mesmo nome
@@ -50,8 +47,7 @@ SELECT
   department_id,
   department_name,
   street_address
-FROM 
-  departments
+FROM departments
 NATURAL JOIN locations
 ORDER BY department_name, street_address;
 
@@ -62,8 +58,7 @@ SELECT
   department_id,
   department_name,
   street_address
-FROM 
-  departments
+FROM departments
 JOIN locations USING (location_id)
 ORDER BY department_name, street_address;
 
@@ -72,8 +67,7 @@ ORDER BY department_name, street_address;
 SELECT 
   emp.first_name funcionario,
   ger.first_name gerente
-FROM 
-  employees emp
+FROM employees emp
 INNER JOIN employees ger ON emp.manager_id = ger.employee_id
 ORDER BY emp.first_name, ger.first_name;
 
@@ -85,8 +79,7 @@ SELECT
   emp.first_name first_name,
   emp.salary,
   grd.grade_level categoria
-FROM 
-  employees emp
+FROM employees emp
 INNER JOIN job_grades grd
   ON NVL(emp.salary, 0) BETWEEN grd.lowest_sal AND grd.highest_sal
 ORDER BY emp.salary;
@@ -98,8 +91,7 @@ SELECT
   emp.employee_id,
   emp.first_name,
   dep.department_name
-FROM 
-  employees emp
+FROM employees emp
 LEFT OUTER JOIN departments dep ON emp.department_id = dep.department_id
 ORDER BY dep.department_name;
 
@@ -109,8 +101,7 @@ SELECT
   emp.employee_id,
   emp.first_name,
   dep.department_name
-FROM 
-  employees emp
+FROM employees emp
 RIGHT OUTER JOIN departments dep ON emp.department_id = dep.department_id
 ORDER BY dep.department_name;
 
@@ -120,8 +111,7 @@ SELECT
   emp.employee_id,
   emp.first_name,
   dep.department_name
-FROM 
-  employees emp
+FROM employees emp
 FULL OUTER JOIN departments dep ON emp.department_id = dep.department_id
 ORDER BY dep.department_name;
 
@@ -131,8 +121,7 @@ ORDER BY dep.department_name;
 
 SELECT 
   emp.employee_id, emp.first_name, dep.department_name
-FROM 
-  employees emp
+FROM employees emp
 CROSS JOIN departments;
 
 -- EQUIJOIN com syntaxe ORACLE
@@ -143,8 +132,7 @@ SELECT
   emp.salary,
   dep.department_name,
   loc.street_address
-FROM 
-  employees emp, departments dep, locations loc
+FROM employees emp, departments dep, locations loc
 WHERE 
   emp.department_id = dep.department_id AND
   dep.location_id = loc.location_id
@@ -159,8 +147,7 @@ SELECT
   emp.salary,
   dep.department_name,
   loc.street_address
-FROM 
-  employees emp, departments dep, locations loc
+FROM employees emp, departments dep, locations loc
 WHERE 
   emp.department_id = dep.department_id AND
   dep.location_id = loc.location_id AND
@@ -172,10 +159,8 @@ SELECT
   emp.first_name nome_empregado,
   ger.employee_id id_gerente,
   ger.first_name nome_gerente
-FROM 
-  employees emp, employees ger
-WHERE 
-  emp.manager_id = ger.employee_id
+FROM employees emp, employees ger
+WHERE emp.manager_id = ger.employee_id
 ORDER BY emp.employee_id;
 
 -- SELF JOIN COM RIGHT OUTER JOIN
@@ -183,10 +168,8 @@ SELECT
   emp.first_name nome_empregado,
   ger.employee_id id_gerente,
   ger.first_name nome_gerente
-FROM 
-  employees emp, employees ger
-WHERE 
-  emp.manager_id = ger.employee_id (+)
+FROM employees emp, employees ger
+WHERE emp.manager_id = ger.employee_id (+)
 ORDER BY emp.employee_id;
 
 -- NONEQUIJOINS na syntaxe ORACLE também recebem suas condições de ligação na cláusula WHERE,
@@ -196,10 +179,8 @@ SELECT
   emp.first_name,
   emp.salary,
   grd.grade_level categoria
-FROM 
-  employees emp, job_grades grd
-WHERE 
-  NVL(emp.salary, 0) BETWEEN grd.lowest_sal AND grd.highest_sal
+FROM employees emp, job_grades grd
+WHERE NVL(emp.salary, 0) BETWEEN grd.lowest_sal AND grd.highest_sal
 ORDER BY categoria;
 
 
@@ -211,10 +192,8 @@ SELECT
   emp.first_name,
   emp.department_id,
   dep.department_name
-FROM 
-  employees emp, departments dep
-WHERE 
-  emp.department_id = dep.department_id (+)
+FROM employees emp, departments dep
+WHERE emp.department_id = dep.department_id (+)
 ORDER BY dep.department_name; -- Departamento pode estar nulo na tabela de funcionários
 
 -- LEFT OUTER JOIN
@@ -222,10 +201,8 @@ SELECT
   emp.first_name,
   emp.department_id,
   dep.department_name
-FROM 
-  employees emp, departments dep
-WHERE 
-  emp.department_id (+) = dep.department_id
+FROM employees emp, departments dep
+WHERE emp.department_id (+) = dep.department_id
 ORDER BY dep.department_name; -- Departamento pode não ter empregados e os campos de empregados estar vazios
 
 -- FULL JOIN
@@ -233,10 +210,8 @@ SELECT
   emp.first_name,
   emp.department_id,
   emp.department_name,
-FROM 
-  employees emp, departments dep
-WHERE
-  emp.department_id (+) = dep.department_id (+)
+FROM employees emp, departments dep
+WHERE emp.department_id (+) = dep.department_id (+)
 ORDER BY dep.department_name; -- Todos os dados e as duas tabelas podem ter valores nulos.
 
 -- PRODUTO CARTESIANO na sintaxe ORACLE
@@ -245,8 +220,7 @@ ORDER BY dep.department_name; -- Todos os dados e as duas tabelas podem ter valo
 SELECT 
   emp.first_name, emp.last_name,
   dep.department_id, dep.department_name
-FROM 
-  employees emp, departments dep;
+FROM employees emp, departments dep;
 
 -- ** Produtos cartesianos normalmente não são utilizados e o código acima, provavelmente será resultado de um erro de lógica
 -- ou de digitação. A solução para esta questão é adicionar uma cláusula WHERE com condição de ligação.

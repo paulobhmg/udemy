@@ -51,15 +51,12 @@ SELECT
   first_name || ' ' || last_name || ' foi contratado em ' || 
   hire_date || ' no departamento ' || department_id || '.' 
   contratacao
-FROM 
-  employees;
+FROM employees;
 
 -- O operador alternativo permite utilizar ASPAS dentro de uma String de caracteres 
 
-SELECT 
-  first_name ||  q'[work's at ]' || department_id || q'[ department's.]' working
-FROM 
-  employees;
+SELECT first_name ||  q'[work's at ]' || department_id || q'[ department's.]' working
+FROM employees;
 
 -- A cláusula DISTINCT permite remover a duplicidade de registros retornados em uma consulta
 
@@ -69,133 +66,86 @@ FROM employees;
 SELECT DISTINCT first_name, last_name
 FROM employees;
 
-
 -- A cláusula WHERE permite restringir ou filtrar quais serão os registros recuperados por uma query
 -- Essa cláusula utiliza operadores relacionais e lógicos para fazer a comparação de valores
 -- Para valores alfanuméricos, é necessário utilizá-los dentro de aspas simples
 
 -- Operador de igualdade
 
-SELECT 
-  employee_id, last_name, job_id, department_id 
-FROM 
-  employees
-WHERE 
-  department_id = 60;
+SELECT employee_id, last_name, job_id, department_id 
+FROM employees
+WHERE department_id = 60;
 
-SELECT 
-  employee_id, last_name, job_id, department_id
-FROM 
-  employees
-WHERE 
-  job_id = 'IT_PROG';
+SELECT employee_id, last_name, job_id, department_id
+FROM employees
+WHERE job_id = 'IT_PROG';
 
-SELECT 
-  first_name, last_name, job_id, department_id 
-FROM 
-  employees
-WHERE 
-  last_name = 'King';
+SELECT first_name, last_name, job_id, department_id 
+FROM employees
+WHERE last_name = 'King';
 
 -- Operadores <, >, <=, >=, <>
 
-SELECT 
-  first_name, last_name, job_id, department_id, hire_date
-FROM 
-  employees
-WHERE 
-  hire_date >= '30/01/01';
+SELECT first_name, last_name, job_id, department_id, hire_date
+FROM employees
+WHERE hire_date >= '30/01/01';
 
-SELECT 
-  first_name, last_name, job_id, department_id, hire_date
-FROM 
-  employees
-WHERE 
-  hire_date <= '30/01/01';
+SELECT first_name, last_name, job_id, department_id, hire_date
+FROM employees
+WHERE hire_date <= '30/01/01';
 
 -- Operador BETWEEN compara valores dentro de determinado intervalo
 
-SELECT 
-  first_name, last_name, job_id, department_id, hire_date
-FROM 
-  employees
-WHERE 
-  hire_date BETWEEN '13/01/01' AND '17/08/02'
+SELECT first_name, last_name, job_id, department_id, hire_date
+FROM employees
+WHERE hire_date BETWEEN '13/01/01' AND '17/08/02'
 ORDER BY hire_date;
 
-SELECT 
-  first_name, last_name, salary
-FROM 
-  employees
-WHERE 
-  salary BETWEEN 10000 AND 13000;
+SELECT first_name, last_name, salary
+FROM employees
+WHERE salary BETWEEN 10000 AND 13000;
 
 -- Operador IN compara valores dentro de uma lista de valores
 
-SELECT 
-  first_name, last_name, job_id 
-FROM 
-  employees 
-WHERE 
-  job_id IN ('IT_PROG', 'FI_ACCOUNT', 'SA_REP');
+SELECT first_name, last_name, job_id 
+FROM employees 
+WHERE job_id IN ('IT_PROG', 'FI_ACCOUNT', 'SA_REP');
 
 -- Operador LIKE compara valores através de padrões utilizando caracteres coringa
 
-SELECT 
-  first_name, last_name, job_id
-FROM 
-  employees
-WHERE 
-  first_name LIKE 'S%'; -- Inicia com 'S' seguido de qualquer outra palavra
+SELECT first_name, last_name, job_id
+FROM employees
+WHERE first_name LIKE 'S%'; -- Inicia com 'S' seguido de qualquer outra palavra
 
-SELECT 
-  first_name, last_name, job_id
-FROM 
-  employees
-WHERE 
-  first_name LIKE '_a%'; -- Inicia com uma letra qualquer, seguida da letra 'a', seguida de qualquer outra coisa
+SELECT first_name, last_name, job_id
+FROM employees
+WHERE first_name LIKE '_a%'; -- Inicia com uma letra qualquer, seguida da letra 'a', seguida de qualquer outra coisa
 
-SELECT 
-  first_name, last_name, job_id
-FROM 
-  employees
-WHERE 
-  first_name LIKE '%el_'; -- Termina com 'el' seguido de qualquer letra
+SELECT first_name, last_name, job_id
+FROM employees
+WHERE first_name LIKE '%el_'; -- Termina com 'el' seguido de qualquer letra
 
-SELECT 
-  first_name, last_name, job_id
-FROM 
-  employees
-WHERE 
-  first_name LIKE '%mu%'; -- Tem as letras 'mu' em qualquer lugar do texto
+SELECT first_name, last_name, job_id
+FROM employees
+WHERE first_name LIKE '%mu%'; -- Tem as letras 'mu' em qualquer lugar do texto
 
 -- Operador AND retorna true caso o resultado de duas expressões seja verdadeiro e false caso um dos resultados seja falso
 
-SELECT 
-  first_name, last_name, salary, job_id
-FROM 
-  employees
-WHERE 
-  job_id = 'IT_PROG' AND salary >= 5000;
+SELECT first_name, last_name, salary, job_id
+FROM employees
+WHERE job_id = 'IT_PROG' AND salary >= 5000;
 
 -- Operador OR retorna true se uma das expressões for verdadeira e false caso todas as expressões sejam falsas
 
-SELECT 
-  first_name, last_name, salary, job_id
-FROM 
-  employees
-WHERE 
-  job_id = 'IT_PROG' OR salary >= 5000;
+SELECT first_name, last_name, salary, job_id
+FROM employees
+WHERE job_id = 'IT_PROG' OR salary >= 5000;
 
 -- Operador NOT retorna a negação de uma expressão
 
-SELECT 
-  first_name, last_name, salary, job_id
-FROM 
-  employees
-WHERE 
-  job_id NOT IN ('IT_PROG', 'FI_ACCOUNT', 'SA_REP');
-
+SELECT first_name, last_name, salary, job_id
+FROM employees
+WHERE job_id NOT IN ('IT_PROG', 'FI_ACCOUNT', 'SA_REP');
 
 /* As operações de consulta, assim como os operadores aritméticos, 
    possuem uma ordem de procedência em sua execução, da esquerda para a direita
@@ -212,65 +162,44 @@ WHERE
     Portanto, vale se atentar em controlar a precedência dessas operações através do uso de parênteses.
 */
 
-SELECT 
-  first_name, last_name, job_id, salary
-FROM 
-  employees
-WHERE 
-  job_id = 'SA_REP' OR job_id = 'IT_PROG' AND salary > 5000; -- Exemplo de resultado inesperado
+SELECT first_name, last_name, job_id, salary
+FROM employees
+WHERE job_id = 'SA_REP' OR job_id = 'IT_PROG' AND salary > 5000; -- Exemplo de resultado inesperado
 
-SELECT 
-  first_name, last_name, job_id, salary
-FROM 
-  employees
-WHERE 
-  (job_id = 'SA_REP' OR job_id = 'IT_PROG') AND salary > 5000;
+SELECT first_name, last_name, job_id, salary
+FROM employees
+WHERE (job_id = 'SA_REP' OR job_id = 'IT_PROG') AND salary > 5000;
 
 -- A Cláusula ORDER BY permite ordenar os dados de forma crescente ou decrescente, permitindo referenciar uma colunas
 -- pelo ALIAS ou pelo número da coluna, sendo o padrão crescente.
 
-SELECT 
-  first_name, last_name, job_id, hire_date
-FROM 
-  employees
+SELECT first_name, last_name, job_id, hire_date
+FROM employees
 ORDER BY hire_date;
 
-SELECT 
-  first_name, last_name, job_id, hire_date, salary * 12 AS annual_salary
-FROM 
-  employees
+SELECT first_name, last_name, job_id, hire_date, salary * 12 AS annual_salary
+FROM employees
 ORDER BY annual_salary DESC; 
 
-SELECT 
-  first_name, last_name, job_id, hire_date, salary * 12 annual_salary
-FROM 
-  employees
+SELECT first_name, last_name, job_id, hire_date, salary * 12 annual_salary
+FROM employees
 ORDER BY 5 ASC, first_name DESC;
 
 -- É possível criar variáveis de substituição, utilizando a tecla '&'. Dessa forma, será solicitado como argumento um 
 -- valor que deverá ser passado via interface gráfica. Valores do tipo String ou datas devem 
 -- passados dentro de ASPAS SIMPLES.
 
-SELECT 
-  first_name, last_name, job_id, hire_date, salary
-FROM 
-  employees
-WHERE 
-  employee_id = &employee_id;
+SELECT first_name, last_name, job_id, hire_date, salary
+FROM employees
+WHERE employee_id = &employee_id;
 
-SELECT 
-  first_name, last_name, job_id, hire_date, salary
-FROM 
-  employees
-WHERE 
-  first_name = '&first_name';
+SELECT first_name, last_name, job_id, hire_date, salary
+FROM employees
+WHERE first_name = '&first_name';
 
-SELECT 
-  first_name, last_name, job_id, hire_date, salary
-FROM 
-  employees
-WHERE 
-  hire_date BETWEEN '&initial' AND '&final';
+SELECT first_name, last_name, job_id, hire_date, salary
+FROM employees
+WHERE hire_date BETWEEN '&initial' AND '&final';
 
 -- Também é possível definir e apagar variáveis utilizando os comandos DEFINE e UNDEFINE
 -- Fazendo dessa forma, A variável de substituição utilizará o valor definido para a variável criada
@@ -278,12 +207,9 @@ WHERE
 
 DEFINE employee_id = 101;
 
-SELECT 
-  first_name, last_name, job_id, hire_date, salary
-FROM 
-  employees
-WHERE 
-  employee_id = &employee_id;
+SELECT first_name, last_name, job_id, hire_date, salary
+FROM employees
+WHERE employee_id = &employee_id;
 
 DEFINE employee_id; -- visualizar o valor da variável
 
